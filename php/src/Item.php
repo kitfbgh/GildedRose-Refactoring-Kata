@@ -3,33 +3,41 @@
 declare(strict_types=1);
 
 namespace GildedRose;
-
-final class Item
+abstract class Item
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var int
-     */
-    public $sell_in;
+    public int $sellIn;
 
-    /**
-     * @var int
-     */
-    public $quality;
+    public int $quality;
 
-    public function __construct(string $name, int $sell_in, int $quality)
+    public function __construct(string $name, int $sellIn, int $quality)
     {
         $this->name = $name;
-        $this->sell_in = $sell_in;
+        $this->sellIn = $sellIn;
         $this->quality = $quality;
     }
 
     public function __toString(): string
     {
-        return "{$this->name}, {$this->sell_in}, {$this->quality}";
+        return "{$this->name}, {$this->sellIn}, {$this->quality}";
+    }
+
+    abstract public function update();
+
+    protected function increaseQuality(): void
+    {
+        if ($this->quality >= 50) {
+            return;
+        }
+        $this->quality += 1;
+    }
+
+    protected function decreaseQuality(): void
+    {
+        if ($this->quality <= 0) {
+            return;
+        }
+        $this->quality -= 1;
     }
 }
